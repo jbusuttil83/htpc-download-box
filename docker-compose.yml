@@ -71,3 +71,20 @@ services:
       - ${CONFIGROOT}/config/plex/db:/config # plex database
       - ${CONFIGROOT}/config/plex/transcode:/transcode # temp transcoded files
       - ${DATAROOT}/complete:/data # media library
+
+  bazarr:
+    container_name: bazarr
+    image: linuxserver/bazarr:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - PUID=${PUID} 
+      - PGID=${PGID} 
+      - TZ=${TZ}
+      - UMASK_SET=022 #optional
+    volumes:
+      - ${ROOT}/config/bazarr:/config
+      - ${DATAROOT}/complete/movies:/movies
+      - ${DATAROOT}/complete/tv:/tv
+    ports:
+      - 6767:6767
